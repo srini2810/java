@@ -1,2 +1,2 @@
 # java
-The repository is for java
+This repository is for java - functional programming
