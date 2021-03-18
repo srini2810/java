@@ -3,6 +3,7 @@ package com.cvs.cdc.job;
 import com.cvs.cdc.dto.EmployeeDTO;
 import com.cvs.cdc.mapper.EmployeeFileRowMapper;
 import com.cvs.cdc.model.Employee;
+import com.cvs.cdc.processor.EmployeeProcessorApi;
 import com.cvs.cdc.processor.EmployeeProcessorDemo3;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -31,6 +32,7 @@ import org.springframework.core.io.Resource;
 import com.cvs.cdc.processor.EmployeeProcessorDemo1;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
+import org.springframework.web.client.RestTemplate;
 
 import javax.sql.DataSource;
 
@@ -50,6 +52,11 @@ public class SpringBatchCdc {
     public EmployeeProcessorDemo3 employeeProcessorDemo3;
 
     @Autowired
+    @Qualifier("employeeprocessorapi")
+    public EmployeeProcessorApi employeeProcessorApi;
+
+
+    @Autowired
     public StepBuilderFactory stepBuilderFactory;
 
     @Autowired
@@ -57,6 +64,9 @@ public class SpringBatchCdc {
     public ItemWriter itemWriter;
 
     private Resource outputResource = new FileSystemResource("output/employee_output.csv");
+
+    @Value("${name}")
+    private String name;
 
 
     @Qualifier("demo1")
@@ -87,6 +97,24 @@ public class SpringBatchCdc {
                 .start(step1Demo3())
                 .build();
     }
+
+    @Bean
+    public RestTemplate restTemplate(){
+        return new RestTemplate();
+    }
+
+    @Bean
+    public void test(){
+        System.out.println("value of name is "+name);
+    }
+
+    /*@Qualifier("dbtoapi")
+    @Bean
+    public Job dbtoapiJob(JobBuilderFactory jobBuilderFactory) throws Exception {
+        return jobBuilderFactory.get("dbtoapi")
+                .start(step1DbtoApi())
+                .build();
+    }*/
 
 
 
@@ -137,12 +165,22 @@ public class SpringBatchCdc {
                 .build();
     }
 
+    /*@Bean
+    public Step step1DbtoApi() throws Exception {
+        return this.stepBuilderFactory.get("step3")
+                .<Employee, EmployeeDTO>chunk(10)
+                .reader(employeeDBReader())
+                .processor(employeeProcessorApi)
+                .writer(employeeFileWriter())
+                .build();
+    }*/
+
     @Bean
     public ItemStreamReader<Employee> employeeDBReader() {
         JdbcCursorItemReader<Employee> reader = new JdbcCursorItemReader<>();
         reader.setDataSource(dataSource);
-        reader.setSql("select * from employees");
-        reader.setRowMapper(((resultSet, i) -> {
+        reader.setSql("select * from employees where status=0");
+        reader.setRowMapper(((resultSet, employee) -> {
            return Employee.builder().age(resultSet.getInt("age")).email(resultSet.getString("email"))
                    .employeeId(resultSet.getString("employee_id")).firstName(resultSet.getString("first_name")).lastName(resultSet.getString("last_name")).build();
         }));

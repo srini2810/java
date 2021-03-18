@@ -1,6 +1,11 @@
 package com.cvs.cdc.controller;
 
+import com.cvs.cdc.dto.EmployeeDTO;
+import com.cvs.cdc.model.CdcResponse;
+import com.cvs.cdc.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.cvs.cdc.runner.JobRunner;
@@ -30,6 +35,17 @@ public class JobController {
     public String runJobDemo3() {
         jobRunner.runBatchJobDemo3();
         return String.format("Job db to csv submitted successfully.");
+    }
+
+    @RequestMapping(value = "/cvstoapi")
+    public String runJobDbToApiDemo() {
+        jobRunner.runBatchJobDbtoApi();
+        return String.format("Job db to api submitted successfully.");
+    }
+
+    @PostMapping(value = "/cdcinfo", consumes = "application/json", produces = "application/json", headers = "Accept=application/json")
+    public CdcResponse getCdcInfo(@RequestBody EmployeeDTO employeeDTO) {
+        return CdcResponse.builder().code("0").message("Successfully updated the cdc info at cdc").build();
     }
 
     @RequestMapping(value = "/csvtodbmultithread")

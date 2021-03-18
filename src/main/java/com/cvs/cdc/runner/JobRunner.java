@@ -32,6 +32,10 @@ public class JobRunner {
     private Job demo3;
 
     @Autowired
+    @Qualifier("dbtoapi")
+    private Job dbtoapi;
+
+    @Autowired
     @Qualifier("demorunBatchJobCsvToDbMultiThread")
     private Job demorunBatchJobCsvToDbMultiThread;
 
@@ -67,6 +71,13 @@ public class JobRunner {
         JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
         jobParametersBuilder.addDate("date", new Date(), true);
         runJob(demo3, jobParametersBuilder.toJobParameters());
+    }
+
+    @Async
+    public void runBatchJobDbtoApi() {
+        JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
+        jobParametersBuilder.addDate("date", new Date(), true);
+        runJob(dbtoapi, jobParametersBuilder.toJobParameters());
     }
 
 

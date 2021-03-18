@@ -25,6 +25,7 @@ public class Employee {
     private String lastName;
     private int age;
     private String email;
+    private int status;
 
 /*
     @Override
