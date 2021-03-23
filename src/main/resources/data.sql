@@ -10,7 +10,7 @@ create table if not exists  employees
 
 );
 
-insert into employees(employee_id, age,email,first_name,last_name) values (1,1,'1@gmail.com','1f','1l');
+insert into employees(employee_id, age,email,first_name,last_name) values (1,1,'1@gmail.com','1f',NULL);
 insert into employees(employee_id, age,email,first_name,last_name) values (2,1,'1@gmail.com','1f','1l');
 insert into employees(employee_id, age,email,first_name,last_name) values (3,1,'1@gmail.com','1f','1l');
 insert into employees(employee_id, age,email,first_name,last_name) values (4,1,'1@gmail.com','1f','1l');

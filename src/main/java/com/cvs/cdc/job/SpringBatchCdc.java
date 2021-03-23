@@ -35,6 +35,7 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.web.client.RestTemplate;
 
 import javax.sql.DataSource;
+import java.util.function.Function;
 
 @Configuration
 public class SpringBatchCdc {
@@ -53,7 +54,7 @@ public class SpringBatchCdc {
 
     @Autowired
     @Qualifier("employeeprocessorapi")
-    public EmployeeProcessorApi employeeProcessorApi;
+    public EmployeeProcessorApi employeeprocessorapi;
 
 
     @Autowired
@@ -108,13 +109,13 @@ public class SpringBatchCdc {
         System.out.println("value of name is "+name);
     }
 
-    /*@Qualifier("dbtoapi")
+    @Qualifier("dbtoapi")
     @Bean
     public Job dbtoapiJob(JobBuilderFactory jobBuilderFactory) throws Exception {
         return jobBuilderFactory.get("dbtoapi")
                 .start(step1DbtoApi())
                 .build();
-    }*/
+    }
 
 
 
@@ -165,15 +166,15 @@ public class SpringBatchCdc {
                 .build();
     }
 
-    /*@Bean
+    @Bean
     public Step step1DbtoApi() throws Exception {
         return this.stepBuilderFactory.get("step3")
                 .<Employee, EmployeeDTO>chunk(10)
                 .reader(employeeDBReader())
-                .processor(employeeProcessorApi)
+                .processor((Function<? super Employee, ? extends EmployeeDTO>) employeeprocessorapi)
                 .writer(employeeFileWriter())
                 .build();
-    }*/
+    }
 
     @Bean
     public ItemStreamReader<Employee> employeeDBReader() {
