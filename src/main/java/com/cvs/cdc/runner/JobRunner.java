@@ -27,9 +27,9 @@ public class JobRunner {
     @Qualifier("demo1")
     private Job demo1;
 
-    @Autowired
+    /*@Autowired
     @Qualifier("demo3")
-    private Job demo3;
+    private Job demo3;*/
 
     @Autowired
     @Qualifier("dbtoapi")
@@ -66,12 +66,12 @@ public class JobRunner {
     }
 
 
-    @Async
+   /* @Async
     public void runBatchJobDemo3() {
         JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
         jobParametersBuilder.addDate("date", new Date(), true);
         runJob(demo3, jobParametersBuilder.toJobParameters());
-    }
+    }*/
 
     @Async
     public void runBatchJobDbtoApi() {

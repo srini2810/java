@@ -2,8 +2,10 @@ package com.cvs.cdc.job;
 
 import com.cvs.cdc.dto.EmployeeDTO;
 import com.cvs.cdc.mapper.EmployeeFileRowMapper;
+import com.cvs.cdc.model.CdcRequestToApi;
+import com.cvs.cdc.model.CdcResponseFromApi;
 import com.cvs.cdc.model.Employee;
-import com.cvs.cdc.processor.EmployeeProcessorApi;
+import com.cvs.cdc.processor.CdcResponseProcessorApi;
 import com.cvs.cdc.processor.EmployeeProcessorDemo3;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -35,7 +37,6 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.web.client.RestTemplate;
 
 import javax.sql.DataSource;
-import java.util.function.Function;
 
 @Configuration
 public class SpringBatchCdc {
@@ -54,7 +55,7 @@ public class SpringBatchCdc {
 
     @Autowired
     @Qualifier("employeeprocessorapi")
-    public EmployeeProcessorApi employeeprocessorapi;
+    public CdcResponseProcessorApi employeeprocessorapi;
 
 
     @Autowired
@@ -63,6 +64,10 @@ public class SpringBatchCdc {
     @Autowired
     @Qualifier("employeewriter")
     public ItemWriter itemWriter;
+
+    @Autowired
+    @Qualifier("cdcdbresponsewriter")
+    public ItemWriter cdcResponseDbWriter;
 
     private Resource outputResource = new FileSystemResource("output/employee_output.csv");
 
@@ -91,13 +96,13 @@ public class SpringBatchCdc {
         this.dataSource = dataSource;
     }*/
 
-    @Qualifier("demo3")
+   /* @Qualifier("demo3")
     @Bean
     public Job demo3Job(JobBuilderFactory jobBuilderFactory) throws Exception {
         return jobBuilderFactory.get("demo3")
                 .start(step1Demo3())
                 .build();
-    }
+    }*/
 
     @Bean
     public RestTemplate restTemplate(){
@@ -156,34 +161,37 @@ public class SpringBatchCdc {
         simpleAsyncTaskExecutor.setConcurrencyLimit(5);
         return simpleAsyncTaskExecutor;
     }
-    @Bean
+   /* @Bean
     public Step step1Demo3() throws Exception {
         return this.stepBuilderFactory.get("step3")
                 .<Employee, EmployeeDTO>chunk(10)
-                .reader(employeeDBReader())
+                .reader(cdcInfoDBReader())
                 .processor(employeeProcessorDemo3)
                 .writer(employeeFileWriter())
                 .build();
-    }
+    }*/
 
     @Bean
     public Step step1DbtoApi() throws Exception {
         return this.stepBuilderFactory.get("step3")
-                .<Employee, EmployeeDTO>chunk(10)
-                .reader(employeeDBReader())
-                .processor((Function<? super Employee, ? extends EmployeeDTO>) employeeprocessorapi)
-                .writer(employeeFileWriter())
+                .<CdcRequestToApi, CdcResponseFromApi>chunk(10)
+                .reader(cdcInfoDBReader())
+                .processor(employeeprocessorapi)
+                .writer(cdcResponseDbWriter)
                 .build();
     }
 
     @Bean
-    public ItemStreamReader<Employee> employeeDBReader() {
-        JdbcCursorItemReader<Employee> reader = new JdbcCursorItemReader<>();
+    public ItemStreamReader<CdcRequestToApi> cdcInfoDBReader() {
+        JdbcCursorItemReader<CdcRequestToApi> reader = new JdbcCursorItemReader<>();
         reader.setDataSource(dataSource);
-        reader.setSql("select * from employees where status=0");
+        reader.setSql("select * from  IMMUNIZATION_INFO  immunizationInfo, cdc_resp_info cdcRespInfo where immunizationInfo.vax_event_id=cdcRespInfo.vax_event_id and cdcRespInfo.status='0'");
         reader.setRowMapper(((resultSet, employee) -> {
-           return Employee.builder().age(resultSet.getInt("age")).email(resultSet.getString("email"))
-                   .employeeId(resultSet.getString("employee_id")).firstName(resultSet.getString("first_name")).lastName(resultSet.getString("last_name")).build();
+           return CdcRequestToApi.builder().vaxEventId(resultSet.getString("vax_event_id"))
+                   .extType(resultSet.getString("ext_type"))
+                   .pprlId(resultSet.getString("pprl_id"))
+                   .recipId(resultSet.getString("recip_id"))
+                   .recipFirstName(resultSet.getString("recip_first_name")).build();
         }));
         return reader;
     }
@@ -204,7 +212,22 @@ public class SpringBatchCdc {
         writer.setShouldDeleteIfExists(true);
         return writer;
     }
-
+   /* @Bean
+    public ItemWriter<CdcResponse> cdcResponseDbWriter() throws Exception {
+        FlatFileItemWriter<CdcResponse> writer = new FlatFileItemWriter<>();
+        writer.setResource(outputResource);
+        writer.setLineAggregator(new DelimitedLineAggregator<CdcResponse>() {
+            {
+                setFieldExtractor(new BeanWrapperFieldExtractor<CdcResponse>() {
+                    {
+                        setNames(new String[]{"employeeId", "firstName", "lastName", "email", "age"});
+                    }
+                });
+            }
+        });
+        writer.setShouldDeleteIfExists(true);
+        return writer;
+    }*/
 
     @Bean
     @StepScope

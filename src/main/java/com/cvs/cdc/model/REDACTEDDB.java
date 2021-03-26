@@ -5,13 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
 @Data
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
-public class CdcResponse {
-
-    private String code;
-    private String message;
-
+@NoArgsConstructor
+public class REDACTEDDB{
+    public String status;
 }
