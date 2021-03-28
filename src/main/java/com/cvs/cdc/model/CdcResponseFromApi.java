@@ -20,6 +20,8 @@ public class CdcResponseFromApi {
     public List<String> validationErrors;
     public List<String> processingErrors;
     public StorageResult storageResult;
+    private String vaxEventId;
+    private CdcRequestToApi cdcRequestToApi;
 
 
 }

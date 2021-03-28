@@ -100,7 +100,6 @@ insert into employees(employee_id, age,email,first_name,last_name) values (87,1,
 insert into employees(employee_id, age,email,first_name,last_name) values (88,1,'1@gmail.com','1f','1l');
 insert into employees(employee_id, age,email,first_name,last_name) values (1023,1,'1@gmail.com','1f','1l');
 insert into employees(employee_id, age,email,first_name,last_name) values (1024,1,'1@gmail.com','1f','1l');*/
-
 create table if not exists  immunization_info
 (
     vax_event_id varchar2 not null,
@@ -122,28 +121,12 @@ create table if not exists  immunization_info
 );
 
 
-create table if not exists  cdc_resp_info
-(
-    cdc_id int NOT NULL auto_increment,
-    status varchar2,
-    create_at varchar2,
-    updated_at varchar2,
-    validation_errors varchar2,
-    processing_errors varchar2,
-    created_by varchar2,
-    updated_by varchar2,
-    cdc_vax_event_id varchar2,
-    status_message varchar2,
-    PRIMARY KEY (cdc_id),
-    CONSTRAINT FK_PLANETICKET_TOURIST foreign key (cdc_vax_event_id) references immunization_info(vax_event_id)
-
-);
 
 insert into immunization_info
 values('00685560010025601','I','','6808418','NFUJLE','','WALKER','10011','M','2 CVS DRIVE',' WHITE SULPHUR',' SPRING','','NJ','12787');
 insert into immunization_info
 values('00685590010632203','I','','4225902','OMNZZA','','MORANO','31985','M','98-810',' AUMAKIKI ST',' AIEA ','','HI','967');
-insert into immunization_info
+/*insert into immunization_info
 values('00175240888963108','I','','5637','SDFFNC','','RICHARDSON','24669','F','230 SUITE','30 CROSSING DR','CUMBERLAND','','RI','2864');
 insert into immunization_info
 values('00175240888963129','I','','5637','SDFFNC','','RICHARDSON','24669','F','230 SUITE','30 CROSSING DR','CUMBERLAND','','RI','2864');
@@ -230,101 +213,117 @@ values('00175240888963111','I','','4974695885','DHVNDD','','BENNETT','20959','M'
 insert into immunization_info
 values('00686080010041200','I','','5637','SDFFNC','','RICHARDSON','24669','F','98-810',' AUMAKIKI ST',' AIEA','','HI','967');
 insert into immunization_info
-values('00685590010632200','I','','4225902','OMNZZA','','MORANO','31985','M','98-810',' AUMAKIKI ST',' AIEA ','','HI','967');
+values('00685590010632200','I','','4225902','OMNZZA','','MORANO','31985','M','98-810',' AUMAKIKI ST',' AIEA ','','HI','967');*/
 
-/*
+create table if not exists  cdc_resp_info
+(
+    cdc_id int NOT NULL auto_increment,
+    status varchar2,
+    create_at varchar2,
+    updated_at varchar2,
+    validation_errors varchar2,
+    processing_errors varchar2,
+    created_by varchar2,
+    updated_by varchar2,
+    cdc_vax_event_id varchar2,
+    status_message varchar2,
+    PRIMARY KEY (cdc_id),
+    CONSTRAINT FK_PLANETICKET_TOURIST foreign key (cdc_vax_event_id) references immunization_info(vax_event_id)
 
-insert into cdc_resp_info (status,vax_event_id)
+);
+
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00685560010025601');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
+values('0','00685590010632203');
+/*insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963108');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963129');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00686080010039902');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963118');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00685560010025602');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963127');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963106');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00685590010632202');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00686080010040602');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00686080010041203');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963102');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963114');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963116');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963115');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00686080010040601');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963120');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963107');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963130');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963128');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00686080010041202');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963123');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963113');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963117');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963101');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00685560010025600');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963121');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963105');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963119');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963104');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00686080010039901');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00686080010039903');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963133');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963103');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963110');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963109');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963122');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963131');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00685590010632201');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00686080010039900');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00686080010041201');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00685560010025603');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963111');
-insert into cdc_resp_info (status,vax_event_id)
+insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00686080010041200');
-insert into cdc_resp_info (status,vax_event_id)
-values('0','00685590010632200');
-*/
+insert into cdc_resp_info (status,cdc_vax_event_id)
+values('0','00685590010632200');*/
 
 /*
 insert into cdc_resp_info
@@ -456,7 +455,7 @@ values('46','0','createdat','udpateat','validationerror','processingerror','crea
 
 
 
-/*insert into immunization_info(vax_event_id,ext_type,pprl_id,recip_id,recip_first_name,recip_middle_name,recip_last_name,recip_dob,
+/*insert into immunization_info(cdc_vax_event_id,ext_type,pprl_id,recip_id,recip_first_name,recip_middle_name,recip_last_name,recip_dob,
                     recip_sex,recip_address_street,recip_address_street_2,recip_address_city,recip_address_county
                     ,recip_address_state,recip_address_zip)
                      values ('00685560010025601','I','','6808418','NFUJLE','','WALKER','10011','M','2 CVS DRIVE',' WHITE SULPHUR',' SPRING','','NJ','12787'

@@ -7,6 +7,9 @@ import com.cvs.cdc.model.CdcResponseFromApi;
 import com.cvs.cdc.model.Employee;
 import com.cvs.cdc.processor.CdcResponseProcessorApi;
 import com.cvs.cdc.processor.EmployeeProcessorDemo3;
+import com.cvs.cdc.reader.ImmunizationInfoDBReader;
+import com.cvs.cdc.repo.ImmunizationInfoRepo;
+import com.cvs.cdc.writer.CdcResponseDBWriter;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -14,6 +17,7 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemStreamReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.data.RepositoryItemReader;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.database.JdbcCursorItemReader;
@@ -34,9 +38,11 @@ import org.springframework.core.io.Resource;
 import com.cvs.cdc.processor.EmployeeProcessorDemo1;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.client.RestTemplate;
 
 import javax.sql.DataSource;
+import java.util.Map;
 
 @Configuration
 public class SpringBatchCdc {
@@ -67,7 +73,10 @@ public class SpringBatchCdc {
 
     @Autowired
     @Qualifier("cdcdbresponsewriter")
-    public ItemWriter cdcResponseDbWriter;
+    public CdcResponseDBWriter cdcResponseDbWriter;
+
+    @Autowired
+    public ImmunizationInfoRepo immunizationInfoRepo;
 
     private Resource outputResource = new FileSystemResource("output/employee_output.csv");
 
@@ -171,21 +180,25 @@ public class SpringBatchCdc {
                 .build();
     }*/
 
+   @Autowired
+   @Qualifier("immunizationinforeader")
+   private ImmunizationInfoDBReader immunizationInfoDBReader;
     @Bean
     public Step step1DbtoApi() throws Exception {
         return this.stepBuilderFactory.get("step3")
-                .<CdcRequestToApi, CdcResponseFromApi>chunk(10)
-                .reader(cdcInfoDBReader())
+                .<CdcRequestToApi, CdcResponseFromApi>chunk(20)
+                .reader(immunizationInfoDBReader)
                 .processor(employeeprocessorapi)
                 .writer(cdcResponseDbWriter)
                 .build();
     }
-
-    @Bean
+    private Map<String, Sort.Direction> sorts;
+   /* @Bean
     public ItemStreamReader<CdcRequestToApi> cdcInfoDBReader() {
-        JdbcCursorItemReader<CdcRequestToApi> reader = new JdbcCursorItemReader<>();
+        *//*JdbcCursorItemReader<CdcRequestToApi> reader = new JdbcCursorItemReader<>();
         reader.setDataSource(dataSource);
-        reader.setSql("select * from  IMMUNIZATION_INFO  immunizationInfo, cdc_resp_info cdcRespInfo where immunizationInfo.vax_event_id=cdcRespInfo.vax_event_id and cdcRespInfo.status='0'");
+        //select * from  IMMUNIZATION_INFO  immunizationInfo, cdc_resp_info cdcRespInfo where immunizationInfo.vax_event_id=cdcRespInfo.vax_event_id and cdcRespInfo.status='0'
+        reader.setSql("select * from  IMMUNIZATION_INFO  immunizationInfo");
         reader.setRowMapper(((resultSet, employee) -> {
            return CdcRequestToApi.builder().vaxEventId(resultSet.getString("vax_event_id"))
                    .extType(resultSet.getString("ext_type"))
@@ -193,8 +206,15 @@ public class SpringBatchCdc {
                    .recipId(resultSet.getString("recip_id"))
                    .recipFirstName(resultSet.getString("recip_first_name")).build();
         }));
-        return reader;
-    }
+        return reader;*//*
+       *//* RepositoryItemReader<CdcRequestToApi> repositoryItemReader = new RepositoryItemReader<>();
+        repositoryItemReader.setRepository(immunizationInfoRepo);
+        repositoryItemReader.setMethodName("findAll");
+        repositoryItemReader.setSort(sorts);*//*
+       // repositoryItemReader.afterPropertiesSet();
+        return repositoryItemReader;
+
+    }*/
 
     @Bean
     public ItemWriter<EmployeeDTO> employeeFileWriter() throws Exception {

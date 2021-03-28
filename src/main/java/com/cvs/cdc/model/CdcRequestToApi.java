@@ -1,30 +1,40 @@
 package com.cvs.cdc.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.*;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "immunization_info")
+@EqualsAndHashCode
+@Setter
+@Getter
+@Table(name="immunization_info")
+//@EqualsAndHashCode(exclude = {"attributeOfTypeList", "attributeOfTypeSet"})
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "vaxEventId")
 public class CdcRequestToApi {
 
     @Id
     @Column(name="vax_event_id")
     private String vaxEventId;
     //Coded value
-    @Column(name="ext_type")
+    @Column(name="ext_type ")
     private String extType;
-    @Column(name="pprl_id")
+    @Column(name="pprl_id ")
     private  String pprlId;
     @Column(name="recip_id")
     private String recipId;
+
+    public CdcRequestToApi(String vaxEventId) {
+        this.vaxEventId = vaxEventId;
+    }
+
     @Column(name="recip_first_name")
     private String recipFirstName;
     @Column(name="recip_middle_name")
@@ -37,7 +47,7 @@ public class CdcRequestToApi {
     private Character recipSex;
     @Column(name="recip_address_street")
     private String recipAddressStreet;
-    @Column(name="recip_address_street_2")
+    @Column(name="recip_address_street_2 ")
     private String recipAddressStreet_2;
     @Column(name="recip_address_city")
     private String recipAddressCity;
@@ -49,75 +59,87 @@ public class CdcRequestToApi {
     private String recipAddressState;
     @Column(name="recip_address_zip")
     private String recipAddressZip;
-    @OneToOne(mappedBy = "immunization_info")
+    @OneToOne(mappedBy = "cdcRequestToApi",cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY, optional = false)
+    //@PrimaryKeyJoinColumn
+    //@MapsId
+   // @JsonManagedReference
+    //@JsonIgnore
+   /* @JsonManagedReference
+    @JsonBackReference
+    @JsonIgnore*/
+   //@JsonIgnore
+   // @JsonIgnoreProperties("cdcRequestToApi")
+   /* @JsonIgnore
+    @ToString.Exclude*/
     private CdcResponseToDb cdcResponseToDb;
-    @Column(name="recip_race_1")
+   /* @Column
     private String recipRace1;
     //coded value
-    @Column(name="recip_race_2")
+    @Column
     private String recipRace2;
     //coded value
-    @Column(name="recip_race_3")
+    @Column
     private String recipRace3;
     //coded value
-    @Column(name="recip_race_4")
+    @Column
     private String recipRace4;
     //coded value
-    @Column(name="recip_race_5")
+    @Column
     private String recipRace5;
     //coded value
-    @Column(name="recip_race_6")
+    @Column
     private String recipRace6;
     //coded value
-    @Column(name="recip_ethnicity")
+    @Column
     private String recipEthnicity;
-    @Column(name="admin_date")
+    @Column
     private String   adminDate;
     //coded value
-    @Column(name="cvx")
+    @Column
     private String cvx;
     //coded value
-    @Column(name="ndc")
+    @Column
     private String ndc;
     //coded value
-    @Column(name="ndc")
+    @Column
     private String mvx;
-    @Column(name="ndc")
+    @Column
     private String lotNumber;
-    @Column(name="ndc")
+    @Column
     private String vaxExpiration;
-    @Column(name="ndc")
+    @Column
     private String vaxAdminSite;
-    @Column(name="ndc")
+    @Column
     private String vaxRoute;
-    @Column(name="ndc")
+    @Column
     private String doseNum;
-    @Column(name="ndc")
+    @Column
     private String vaxSeriesComplete;
-    @Column(name="ndc")
+    @Column
     private String responsibleOrg;
-    @Column(name="ndc")
+    @Column
     private String adminName;
-    @Column(name="ndc")
+    @Column
     private String vtrcksProvPin;
-    @Column(name="ndc")
+    @Column
     private String adminType;
-    @Column(name="ndc")
+    @Column
     private String adminAddressStreet;
-    @Column(name="ndc")
+    @Column
     private String adminAddressStreet_2;
-    @Column(name="ndc")
+    @Column
     private String adminAddressCity;
-    @Column(name="ndc")
+    @Column
     private String adminAddressCounty;
-    @Column(name="ndc")
+    @Column
     private String adminAddressState;
-    @Column(name="ndc")
+    @Column
     private String adminAddressZip;
-    @Column(name="ndc")
+    @Column
     private String vaxRefusal;
-    @Column(name="ndc")
+    @Column
     private String cmorbidStatus;
-    @Column(name="ndc")
-    private String serology;
+    @Column
+    private String serology;*/
 }

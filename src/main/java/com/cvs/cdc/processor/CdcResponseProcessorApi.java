@@ -29,6 +29,8 @@ public class CdcResponseProcessorApi implements ItemProcessor<CdcRequestToApi, C
         RequestEntity<CdcRequestToApi> requestEntity = RequestEntity.post(url).body(cdcRequestToApi);
 
         ResponseEntity<CdcResponseFromApi> cdcResponse = apiRestTemplate.postForEntity(url,requestEntity, CdcResponseFromApi.class);
-       return cdcResponse.getBody();
+        CdcResponseFromApi cdcResponseFromApi = cdcResponse.getBody();
+        cdcResponseFromApi.setCdcRequestToApi(cdcRequestToApi);
+        return cdcResponseFromApi;
     }
 }

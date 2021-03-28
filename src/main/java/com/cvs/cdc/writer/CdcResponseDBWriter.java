@@ -1,5 +1,6 @@
 package com.cvs.cdc.writer;
 
+import com.cvs.cdc.model.CdcRequestToApi;
 import com.cvs.cdc.model.CdcResponseFromApi;
 import com.cvs.cdc.model.CdcResponseToDb;
 import com.cvs.cdc.repo.CdcRespRepo;
@@ -21,9 +22,14 @@ public class CdcResponseDBWriter implements ItemWriter<CdcResponseFromApi> {
     @Override
     public void write(List<? extends CdcResponseFromApi> cdcResponseFromApis) throws Exception {
         List<CdcResponseToDb> cdcResponseToDbs = cdcResponseFromApis.stream().map(cdcResponseFromApi -> {
-            return CdcResponseToDb.builder().statusMessage(cdcResponseFromApi.getStorageResult().getREDACTED_DB().getStatus()).validationErrors("")
-                                  .createAt("createdAt").createdBy("srini").status("1").processingErrors("").udpatedBy("srini").updatedAt("updatedAt").build();
+
+            String vaxEventId = cdcResponseFromApi.getCdcRequestToApi().getVaxEventId();
+
+            return CdcResponseToDb.builder().cdcId(1).cdcStatusMessage(cdcResponseFromApi.getStorageResult().getREDACTED_DB().getStatus()).validationErrors("")
+                                  .createAt("createdAt").createdBy("srini").status("1").processingErrors("").udpatedBy("srini").updatedAt("updatedAt").
+            cdcRequestToApi(new CdcRequestToApi(vaxEventId)).build();
         }).collect(Collectors.toList());
+       // CdcResponseToDb cdcResponseToDb = cdcResponseToDbs.get(0);
         cdcRespRepo.saveAll(cdcResponseToDbs);
         System.out.println("{} employees saved in database " + cdcResponseToDbs.size());
     }
