@@ -1,7 +1,6 @@
 package com.cvs.cdc.dto;
 
 import lombok.Data;
-
 @Data
 public class EmployeeDTO {
     private String employeeId;

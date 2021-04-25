@@ -1,8 +1,10 @@
 package com.cvs.cdc.config;
 
 import com.cvs.cdc.model.User;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -17,14 +19,27 @@ import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+
+import javax.sql.DataSource;
+import java.util.Properties;
 
 @Configuration
 @EnableBatchProcessing
-public class SpringBatchConfig {
+public class SpringBatchConfig extends DefaultBatchConfigurer {
 
+    @Override
+    public void setDataSource(DataSource dataSource) {
+        // override to do not set datasource even if a datasource exist.
+        // initialize will use a Map based JobRepository (instead of database)
+    }
     @Autowired
     @Qualifier("userItemProcessor")
     private ItemProcessor itemProcessor;
@@ -32,6 +47,9 @@ public class SpringBatchConfig {
     @Autowired
     @Qualifier("userItemWriter")
     private ItemWriter itemWriter;
+
+    @Value("org/springframework/batch/core/schema-teradata.sql")
+    private Resource dropRepositoryTables;
 
     @Bean
     public Job job(JobBuilderFactory jobBuilderFactory,
@@ -85,4 +103,60 @@ public class SpringBatchConfig {
         return defaultLineMapper;
     }
 
+    /*@Bean
+    public DataSource dataSource(){
+
+
+        HikariDataSource hikariDataSource = new HikariDataSource();
+        hikariDataSource.setDriverClassName("com.teradata.jdbc.TeraDriver");
+        hikariDataSource.setJdbcUrl("jdbc:teradata://TIDWDEV1");
+        hikariDataSource.setUsername("IDW_STG_CPL");
+        hikariDataSource.setPassword("rFh_9ghA");
+        hikariDataSource.setMaximumPoolSize(10);
+        return hikariDataSource;
+
+    }*/
+    /*@Bean
+    public JdbcTemplate jdbcTemplate(){
+        return new JdbcTemplate(dataSource());
+    }
+*/
+   /* @Bean
+    public LocalSessionFactoryBean sessionFactory() {
+        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+        sessionFactory.setDataSource(dataSource());
+        sessionFactory.setHibernateProperties(hibernateProperties());
+
+        return sessionFactory;
+    }
+*/
+   /* @Bean
+    public HibernateTransactionManager transactionManager() {
+        HibernateTransactionManager txManager = new HibernateTransactionManager();
+        txManager.setSessionFactory(sessionFactory().getObject());
+        return txManager;
+    }
+*/
+    /*private DataSource dataSource() {
+
+        final HikariDataSource ds = new HikariDataSource();
+      *//*  ds.setMaximumPoolSize(100);
+        ds.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
+        ds.addDataSourceProperty("url", url);
+        ds.addDataSourceProperty("user", username);
+        ds.addDataSourceProperty("password", password);
+        ds.addDataSourceProperty("cachePrepStmts", true);
+        ds.addDataSourceProperty("prepStmtCacheSize", 250);
+        ds.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);
+        ds.addDataSourceProperty("useServerPrepStmts", true);*//*
+        return ds;
+    }*/
+
+    /*private Properties hibernateProperties() {
+        final Properties properties = new Properties();
+        properties.setProperty()
+         (Dialect, 2nd level entity cache, query cache, etc.)
+        return properties;
+    }
+*/
 }

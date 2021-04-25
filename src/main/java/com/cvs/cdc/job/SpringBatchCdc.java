@@ -1,14 +1,18 @@
 package com.cvs.cdc.job;
 
+//import com.cvs.cdc.dto.EmployeeDTO;
+//import com.cvs.cdc.mapper.EmployeeFileRowMapper;
+
 import com.cvs.cdc.dto.EmployeeDTO;
-import com.cvs.cdc.mapper.EmployeeFileRowMapper;
 import com.cvs.cdc.model.CdcRequestToApi;
 import com.cvs.cdc.model.CdcResponseFromApi;
-import com.cvs.cdc.model.Employee;
+//import com.cvs.cdc.model.Employee;
+import com.cvs.cdc.model.CdcResponseToDb;
 import com.cvs.cdc.processor.CdcResponseProcessorApi;
-import com.cvs.cdc.processor.EmployeeProcessorDemo3;
+//import com.cvs.cdc.processor.EmployeeProcessorDemo3;
 import com.cvs.cdc.reader.ImmunizationInfoDBReader;
 import com.cvs.cdc.repo.ImmunizationInfoRepo;
+//import com.cvs.cdc.writer.CdcResponseDBWriter;
 import com.cvs.cdc.writer.CdcResponseDBWriter;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -35,41 +39,109 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import com.cvs.cdc.processor.EmployeeProcessorDemo1;
+//import com.cvs.cdc.processor.EmployeeProcessorDemo1;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Map;
 
 @Configuration
+//@EnableJpaRepositories
+/*@EnableJpaRepositories(
+        entityManagerFactoryRef = "entityManagerFactory",
+        transactionManagerRef = "transactionManager",
+        basePackages = "com.cvs.cdc.repo"
+)*/
 public class SpringBatchCdc {
 
+    /*@Autowired
+    public DataSource dataSource;*/
+    /*@Bean
+    public DataSource dataSource() {
+
+        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+        return builder.setType(EmbeddedDatabaseType.HSQL).build();
+    }
+
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        vendorAdapter.setGenerateDdl(true);
+
+        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+        factory.setJpaVendorAdapter(vendorAdapter);
+        factory.setPackagesToScan("com.acme.domain");
+        factory.setDataSource(dataSource());
+        return factory;
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+
+        JpaTransactionManager txManager = new JpaTransactionManager();
+        txManager.setEntityManagerFactory(entityManagerFactory);
+        return txManager;
+    }*/
+
+    /*
+
+
+
+        @Autowired
+        public EmployeeProcessorDemo1 employeeProcessorDemo1;
+
+        @Autowired
+        @Qualifier("employeeprocessordemo3")
+        public EmployeeProcessorDemo3 employeeProcessorDemo3;
+    */
+    /*@Bean
+    public EntityManagerFactory entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+        factory.setDataSource(dataSource);
+        factory.setPackagesToScan("com.cvs.cdc.model");
+        factory.setJpaVendorAdapter(getVendorAdapter());
+        factory.afterPropertiesSet();
+        return factory.getObject();
+    }
+
+    private HibernateJpaVendorAdapter getVendorAdapter() {
+        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        vendorAdapter.setShowSql(Boolean.TRUE);
+        return vendorAdapter;
+    }
+
+    @Bean
+    public JpaTransactionManager jpaTransactionManager() {
+        JpaTransactionManager txManager = new JpaTransactionManager();
+        txManager.setEntityManagerFactory(entityManagerFactory());
+        txManager.afterPropertiesSet();
+        return txManager;
+    }*/
+
     @Autowired
-    public DataSource dataSource;
-
-
-
-    @Autowired
-    public EmployeeProcessorDemo1 employeeProcessorDemo1;
-
-    @Autowired
-    @Qualifier("employeeprocessordemo3")
-    public EmployeeProcessorDemo3 employeeProcessorDemo3;
-
-    @Autowired
-    @Qualifier("employeeprocessorapi")
-    public CdcResponseProcessorApi employeeprocessorapi;
+    @Qualifier("cdcresponseeprocessor")
+    public CdcResponseProcessorApi cdcresponseeprocessor;
 
 
     @Autowired
     public StepBuilderFactory stepBuilderFactory;
-
+/*
     @Autowired
     @Qualifier("employeewriter")
-    public ItemWriter itemWriter;
+    public ItemWriter itemWriter;*/
 
     @Autowired
     @Qualifier("cdcdbresponsewriter")
@@ -84,14 +156,14 @@ public class SpringBatchCdc {
     private String name;
 
 
-    @Qualifier("demo1")
+    /*@Qualifier("demo1")
     @Bean
     public Job demo1Job(JobBuilderFactory jobBuilderFactory){
         return jobBuilderFactory.get("demo1")
                 .start(step1Demo1())
                 .build();
 
-    }
+    }*/
   /* public JobBuilderFactory jobBuilderFactory;
     public StepBuilderFactory stepBuilderFactory;
     public EmployeeProcessorDemo1 employeeProcessor;
@@ -114,58 +186,58 @@ public class SpringBatchCdc {
     }*/
 
     @Bean
-    public RestTemplate restTemplate(){
+    public RestTemplate restTemplate() {
         return new RestTemplate();
     }
 
     @Bean
-    public void test(){
-        System.out.println("value of name is "+name);
+    public void test() {
+        System.out.println("value of name is " + name);
     }
 
     @Qualifier("dbtoapi")
     @Bean
     public Job dbtoapiJob(JobBuilderFactory jobBuilderFactory) throws Exception {
         return jobBuilderFactory.get("dbtoapi")
-                .start(step1DbtoApi())
-                .build();
+                                .start(step1DbtoApi())
+                                .build();
     }
 
 
 
-    @Qualifier("demorunBatchJobCsvToDbMultiThread")
+    /*@Qualifier("demorunBatchJobCsvToDbMultiThread")
     @Bean
     public Job demorunBatchJobCsvToDbMultiThread(JobBuilderFactory jobBuilderFactory) throws Exception {
         return  jobBuilderFactory.get("demorunBatchJobCsvToDbMultiThread")
                 .start(step1JobCsvToDbMultiThread())
                 .build();
-    }
-    @Bean
+    }*/
+    /*@Bean
     public Step step1JobCsvToDbMultiThread() {
 
         return stepBuilderFactory.get("step1")
                 .<EmployeeDTO,Employee>chunk(5)
                 .reader(EmployeeReader())
                 .processor(employeeProcessorDemo1)
-                .writer(/*employeeDBWriterDefault()*/ itemWriter)
+                .writer(*//*employeeDBWriterDefault()*//* itemWriter)
                 .taskExecutor(taskExecutor())
                 .build();
 
-    }
-    @Bean
+    }*/
+   /* @Bean
     public Step step1Demo1() {
 
         return stepBuilderFactory.get("step1")
                 .<EmployeeDTO,Employee>chunk(5)
                 .reader(EmployeeReader())
                 .processor(employeeProcessorDemo1)
-                .writer(/*employeeDBWriterDefault()*/ itemWriter)
+                .writer(*//*employeeDBWriterDefault()*//* itemWriter)
                 .build();
         
-    }
+    }*/
 
     @Bean
-    public TaskExecutor taskExecutor(){
+    public TaskExecutor taskExecutor() {
         SimpleAsyncTaskExecutor simpleAsyncTaskExecutor = new SimpleAsyncTaskExecutor();
         simpleAsyncTaskExecutor.setConcurrencyLimit(5);
         return simpleAsyncTaskExecutor;
@@ -180,22 +252,25 @@ public class SpringBatchCdc {
                 .build();
     }*/
 
-   @Autowired
-   @Qualifier("immunizationinforeader")
-   private ImmunizationInfoDBReader immunizationInfoDBReader;
+    @Autowired
+    @Qualifier("immunizationinforeader")
+    private ImmunizationInfoDBReader immunizationInfoDBReader;
+
     @Bean
     public Step step1DbtoApi() throws Exception {
         return this.stepBuilderFactory.get("step3")
-                .<CdcRequestToApi, CdcResponseFromApi>chunk(20)
+                .<CdcRequestToApi, CdcResponseToDb>chunk(20)
                 .reader(immunizationInfoDBReader)
-                .processor(employeeprocessorapi)
-                .writer(cdcResponseDbWriter)
+                .processor(cdcresponseeprocessor)
+                .writer(cdcResponseDbWriter)  //employeeFileWriter() //cdcResponseDbWriter()
                 .build();
     }
+
     private Map<String, Sort.Direction> sorts;
-   /* @Bean
-    public ItemStreamReader<CdcRequestToApi> cdcInfoDBReader() {
-        *//*JdbcCursorItemReader<CdcRequestToApi> reader = new JdbcCursorItemReader<>();
+
+    /* @Bean
+     public ItemStreamReader<CdcRequestToApi> cdcInfoDBReader() {
+         *//*JdbcCursorItemReader<CdcRequestToApi> reader = new JdbcCursorItemReader<>();
         reader.setDataSource(dataSource);
         //select * from  IMMUNIZATION_INFO  immunizationInfo, cdc_resp_info cdcRespInfo where immunizationInfo.vax_event_id=cdcRespInfo.vax_event_id and cdcRespInfo.status='0'
         reader.setSql("select * from  IMMUNIZATION_INFO  immunizationInfo");
@@ -207,7 +282,7 @@ public class SpringBatchCdc {
                    .recipFirstName(resultSet.getString("recip_first_name")).build();
         }));
         return reader;*//*
-       *//* RepositoryItemReader<CdcRequestToApi> repositoryItemReader = new RepositoryItemReader<>();
+     *//* RepositoryItemReader<CdcRequestToApi> repositoryItemReader = new RepositoryItemReader<>();
         repositoryItemReader.setRepository(immunizationInfoRepo);
         repositoryItemReader.setMethodName("findAll");
         repositoryItemReader.setSort(sorts);*//*
@@ -215,8 +290,7 @@ public class SpringBatchCdc {
         return repositoryItemReader;
 
     }*/
-
-    @Bean
+   /* @Bean
     public ItemWriter<EmployeeDTO> employeeFileWriter() throws Exception {
         FlatFileItemWriter<EmployeeDTO> writer = new FlatFileItemWriter<>();
         writer.setResource(outputResource);
@@ -231,14 +305,14 @@ public class SpringBatchCdc {
         });
         writer.setShouldDeleteIfExists(true);
         return writer;
-    }
-   /* @Bean
-    public ItemWriter<CdcResponse> cdcResponseDbWriter() throws Exception {
-        FlatFileItemWriter<CdcResponse> writer = new FlatFileItemWriter<>();
+    }*/
+    @Bean
+    public ItemWriter<CdcResponseToDb> cdcResponseDbWriter() throws Exception {
+        FlatFileItemWriter<CdcResponseToDb> writer = new FlatFileItemWriter<>();
         writer.setResource(outputResource);
-        writer.setLineAggregator(new DelimitedLineAggregator<CdcResponse>() {
+        writer.setLineAggregator(new DelimitedLineAggregator<CdcResponseToDb>() {
             {
-                setFieldExtractor(new BeanWrapperFieldExtractor<CdcResponse>() {
+                setFieldExtractor(new BeanWrapperFieldExtractor<CdcResponseToDb>() {
                     {
                         setNames(new String[]{"employeeId", "firstName", "lastName", "email", "age"});
                     }
@@ -247,9 +321,9 @@ public class SpringBatchCdc {
         });
         writer.setShouldDeleteIfExists(true);
         return writer;
-    }*/
+    }
 
-    @Bean
+  /*  @Bean
     @StepScope
     public FlatFileItemReader<EmployeeDTO> EmployeeReader() {
         FlatFileItemReader<EmployeeDTO> flatFileItemReader = new FlatFileItemReader<>();
@@ -262,14 +336,14 @@ public class SpringBatchCdc {
         defaultLineMapper.setFieldSetMapper(new EmployeeFileRowMapper());
         flatFileItemReader.setLineMapper(defaultLineMapper);
         return flatFileItemReader;
-    }
+    }*/
 
     @Bean
     @StepScope
     public Resource inputFileResource(@Value("#{jobParameters[fileName]}") final String fileName) {
         return new ClassPathResource(fileName);
     }
-
+/*
     @Bean
     public JdbcBatchItemWriter<Employee> employeeDBWriterDefault() {
         JdbcBatchItemWriter<Employee> itemWriter = new JdbcBatchItemWriter<Employee>();
@@ -277,5 +351,5 @@ public class SpringBatchCdc {
         itemWriter.setSql("insert into employee (employee_id, first_name, last_name, email, age) values (:employeeId, :firstName, :lastName, :email, :age)");
         itemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<Employee>());
         return itemWriter;
-    }
+    }*/
 }

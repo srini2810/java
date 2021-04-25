@@ -100,7 +100,7 @@ insert into employees(employee_id, age,email,first_name,last_name) values (87,1,
 insert into employees(employee_id, age,email,first_name,last_name) values (88,1,'1@gmail.com','1f','1l');
 insert into employees(employee_id, age,email,first_name,last_name) values (1023,1,'1@gmail.com','1f','1l');
 insert into employees(employee_id, age,email,first_name,last_name) values (1024,1,'1@gmail.com','1f','1l');*/
-create table if not exists  immunization_info
+/*create table if not exists  immunization_info
 (
     vax_event_id varchar2 not null,
     ext_type     varchar(255),
@@ -118,14 +118,14 @@ create table if not exists  immunization_info
     recip_address_state     varchar(255),
     recip_address_zip       varchar(255),
     primary key (vax_event_id)
-);
+);*/
 
 
-
+/*
 insert into immunization_info
 values('00685560010025601','I','','6808418','NFUJLE','','WALKER','10011','M','2 CVS DRIVE',' WHITE SULPHUR',' SPRING','','NJ','12787');
 insert into immunization_info
-values('00685590010632203','I','','4225902','OMNZZA','','MORANO','31985','M','98-810',' AUMAKIKI ST',' AIEA ','','HI','967');
+values('00685590010632203','I','','4225902','OMNZZA','','MORANO','31985','M','98-810',' AUMAKIKI ST',' AIEA ','','HI','967');*/
 /*insert into immunization_info
 values('00175240888963108','I','','5637','SDFFNC','','RICHARDSON','24669','F','230 SUITE','30 CROSSING DR','CUMBERLAND','','RI','2864');
 insert into immunization_info
@@ -215,7 +215,7 @@ values('00686080010041200','I','','5637','SDFFNC','','RICHARDSON','24669','F','9
 insert into immunization_info
 values('00685590010632200','I','','4225902','OMNZZA','','MORANO','31985','M','98-810',' AUMAKIKI ST',' AIEA ','','HI','967');*/
 
-create table if not exists  cdc_resp_info
+/*create table if not exists  cdc_resp_info
 (
     cdc_id int NOT NULL auto_increment,
     status varchar2,
@@ -230,12 +230,12 @@ create table if not exists  cdc_resp_info
     PRIMARY KEY (cdc_id),
     CONSTRAINT FK_PLANETICKET_TOURIST foreign key (cdc_vax_event_id) references immunization_info(vax_event_id)
 
-);
+);*/
 
-insert into cdc_resp_info (status,cdc_vax_event_id)
+/*insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00685560010025601');
 insert into cdc_resp_info (status,cdc_vax_event_id)
-values('0','00685590010632203');
+values('0','00685590010632203');*/
 /*insert into cdc_resp_info (status,cdc_vax_event_id)
 values('0','00175240888963108');
 insert into cdc_resp_info (status,cdc_vax_event_id)

@@ -27,27 +27,28 @@ import java.util.Map;
         transactionManagerRef = "transactionManager",
         basePackages = "com.cvs.cdc.repo"
 )
-public class H2DbConfig {
+public class TeradataDbConfig {
 
-    /*@Primary
-    @Bean(name = "H2Datasource")
-    @ConfigurationProperties(prefix = "h2.datasource")
-    public DataSource dataSource(){
+    @Primary
+    @Bean(name = "TeraDataDataSource")
+    @ConfigurationProperties(prefix = "teradata.datasource")
+    public DataSource dataSource1(){
         return DataSourceBuilder.create().build();
     }
 
     @Primary
     @Bean(name="entityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(EntityManagerFactoryBuilder builder, @Qualifier("H2Datasource") DataSource dataSource){
+    public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(EntityManagerFactoryBuilder builder, @Qualifier("TeraDataDataSource") DataSource dataSource1){
         Map<String,String> properties = new HashMap<>();
         properties.put("hibnerate.hbm2ddl.auto","validate");
-        properties.put("hibernate.dialect","org.hibernate.dialect.H2Dialect");
-        return builder.dataSource(dataSource).properties(properties).packages("com.cvs.cdc.model").persistenceUnit("cdc").build();
+      //  properties.put("hibernate.dialect","org.hibernate.dialect.H2Dialect");
+        properties.put("hibernate.dialect","org.hibernate.dialect.TeradataDialect");
+        return builder.dataSource(dataSource1).properties(properties).packages("com.cvs.cdc.model").persistenceUnit("cdc").build();
     }
 
     @Primary
     @Bean(name="transactionManager")
     public PlatformTransactionManager transactionManager(@Qualifier("entityManagerFactory") EntityManagerFactory entityManagerFactory ){
         return new JpaTransactionManager(entityManagerFactory);
-    }*/
+    }
 }

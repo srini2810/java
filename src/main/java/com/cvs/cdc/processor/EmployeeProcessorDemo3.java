@@ -1,13 +1,14 @@
 package com.cvs.cdc.processor;
 
-import com.cvs.cdc.dto.EmployeeDTO;
-import com.cvs.cdc.model.Employee;
+//import com.cvs.cdc.dto.EmployeeDTO;
+//import com.cvs.cdc.model.Employee;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+/*
 
 @Component
 @Qualifier("employeeprocessordemo3")
@@ -34,4 +35,4 @@ public class EmployeeProcessorDemo3 implements ItemProcessor<Employee, EmployeeD
         System.out.println("inside processor " + employee.toString());
         return employeeDTO;
     }
-}
+}*/

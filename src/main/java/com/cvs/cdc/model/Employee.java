@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+/*
 
 @Data
 @Entity
@@ -27,14 +28,18 @@ public class Employee {
     private String email;
     private int status;
 
+*/
 /*
     @Override
     public String getId() {
         return employeeId;
-    }*/
+    }*//*
 
-   /* @Override
+
+   */
+/* @Override
     public boolean isNew() {
         return true;
-    }*/
-}
+    }*//*
+
+}*/

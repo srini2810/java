@@ -1,9 +1,10 @@
 package com.cvs.cdc.processor;
 
-import com.cvs.cdc.dto.EmployeeDTO;
-import com.cvs.cdc.model.Employee;
+//import com.cvs.cdc.dto.EmployeeDTO;
+//import com.cvs.cdc.model.Employee;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.stereotype.Component;
+/*
 
 @Component
 public class EmployeeProcessorDemo1 implements ItemProcessor<EmployeeDTO, Employee> {
@@ -19,4 +20,4 @@ public class EmployeeProcessorDemo1 implements ItemProcessor<EmployeeDTO, Employ
         employee.setAge(employeeDTO.getAge());
         return employee;
     }
-}
+}*/

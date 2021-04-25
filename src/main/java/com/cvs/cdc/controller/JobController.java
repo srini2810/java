@@ -25,11 +25,11 @@ public class JobController {
         this.jobRunner = jobRunner;
     }
 
-    @RequestMapping(value = "/csvtodb")
+   /* @RequestMapping(value = "/csvtodb")
     public String runJob() {
         jobRunner.runBatchJob();
         return String.format("Job csv to db submitted successfully.");
-    }
+    }*/
 
    /* @RequestMapping(value = "/dbtocsv")
     public String runJobDemo3() {
@@ -46,14 +46,14 @@ public class JobController {
     //this end point gets called internally by the batch program.
     @PostMapping(value = "/cdcinfo", consumes = "application/json", produces = "application/json", headers = "Accept=application/json")
     public CdcResponseFromApi getCdcInfo(@RequestBody CdcRequestToApi cdcRequestToApi) {
-        return CdcResponseFromApi.builder().id(cdcRequestToApi.getVaxEventId())
+        return CdcResponseFromApi.builder()/*.id(*//*cdcRequestToApi.getVaxEventId()*//*)*/
                                  .storageResult(StorageResult.builder().nON_REDACTED_DB(NONREDACTEDDB.builder()
                                  .status("SUCCESS").build()).rEDACTED_DB(REDACTEDDB.builder().status("SUCCESS").build()).build()).validationErrors(new ArrayList<>()).processingErrors(new ArrayList<>()).build();
     }
 
-    @RequestMapping(value = "/csvtodbmultithread")
+   /* @RequestMapping(value = "/csvtodbmultithread")
     public String runJobDemoCsvToDbMultiThread() {
         jobRunner.runBatchJobCsvToDbMultiThread();
         return String.format("Job Demo1 submitted successfully.");
-    }
+    }*/
 }

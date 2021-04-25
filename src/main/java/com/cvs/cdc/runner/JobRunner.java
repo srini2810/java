@@ -23,9 +23,9 @@ public class JobRunner {
 
     @Autowired
     private JobLauncher simpleJobLauncher;
-    @Autowired
+   /* @Autowired
     @Qualifier("demo1")
-    private Job demo1;
+    private Job demo1;*/
 
     /*@Autowired
     @Qualifier("demo3")
@@ -35,9 +35,9 @@ public class JobRunner {
     @Qualifier("dbtoapi")
     private Job dbtoapi;
 
-    @Autowired
+   /* @Autowired
     @Qualifier("demorunBatchJobCsvToDbMultiThread")
-    private Job demorunBatchJobCsvToDbMultiThread;
+    private Job demorunBatchJobCsvToDbMultiThread;*/
 
    /* @Autowired
 
@@ -46,24 +46,24 @@ public class JobRunner {
         this.demo1 = demo1;
     }*/
 
-
+/*
     @Async
     public void runBatchJob() {
         JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
         jobParametersBuilder.addString(Constants.FILE_NAME_CONTEXT_KEY, "employee.csv");
         jobParametersBuilder.addDate("date", new Date(), true);
         runJob(demo1, jobParametersBuilder.toJobParameters());
-    }
+    }*/
 
 
-
+/*
     @Async
     public void runBatchJobCsvToDbMultiThread() {
         JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
         jobParametersBuilder.addString(Constants.FILE_NAME_CONTEXT_KEY, "employee.csv");
         jobParametersBuilder.addDate("date", new Date(), true);
         runJob(demorunBatchJobCsvToDbMultiThread, jobParametersBuilder.toJobParameters());
-    }
+    }*/
 
 
    /* @Async

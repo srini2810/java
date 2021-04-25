@@ -1,8 +1,9 @@
 package com.cvs.cdc.mapper;
 
-import com.cvs.cdc.dto.EmployeeDTO;
+//import com.cvs.cdc.dto.EmployeeDTO;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.FieldSet;
+/*
 
 public class EmployeeFileRowMapper implements FieldSetMapper<EmployeeDTO> {
 
@@ -21,4 +22,4 @@ public class EmployeeFileRowMapper implements FieldSetMapper<EmployeeDTO> {
         return employee;
     }
 
-}
+}*/

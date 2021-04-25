@@ -5,7 +5,6 @@ import lombok.*;
 import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
-
 @EqualsAndHashCode
 @Builder
 @Entity
@@ -13,12 +12,59 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Setter
 @Getter
-@Table(name="cdc_resp_info")
-@JsonIdentityInfo(
+@Table(name="IDW_APPS_STG_VW.CDC_API_UPLOAD_STATUS")
+@IdClass(CompositeKey.class)
+
+/*@JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "cdcId")
+        property = "cdcId")*/
 //@EqualsAndHashCode(exclude = {"attributeOfTypeList", "attributeOfTypeSet"})
 public class CdcResponseToDb /*implements Persistable<CdcResponseToDb>*/ {
+
+   /* @EmbeddedId
+    private CompositeKey cdcResponseKey;*/
+    @Id
+    @Column(name="vax_event_id")
+    private String vaxEventId;
+
+    @Column(name="RXC_IMM_ID")
+    @Id
+    private String rxcImmId;
+
+    @Column(name="EXTR_DT")
+    @Id
+    private String extrDt;
+
+    @Column(name="JOB_NM")
+    @Id
+    private String jobNm;
+
+    @Column(name="ACTVY_TYP_CD")
+    private String activityTypCd;
+
+    @Column(name="RESULT_CD")
+    private String resultCd;
+
+    @Column(name="STATUS_CD")
+    private String statusCd;
+
+    @Column(name="INSRT_TS")
+    private String insrtTs;
+
+    @Column(name="UPDT_TS")
+    private String updtTs;
+
+    @Column(name="VAL_STATUS_MSG")
+    private String valStatusMsg;
+
+    @Column(name="UPLOAD_STATUS_MSG")
+    private String uploadStatusMsg;
+
+
+/*
+
+
+
 
     @Id
     @Column(name="cdc_id")
@@ -40,16 +86,19 @@ public class CdcResponseToDb /*implements Persistable<CdcResponseToDb>*/ {
     private String udpatedBy;
     @Column(name="status_message")
     private String cdcStatusMessage;
-    /*@Column(name="vax_event_id")
-    private String vaxEventId;*/
-    @OneToOne(/*cascade = CascadeType.ALL*/fetch = FetchType.LAZY,optional = false)
+    @Column(name="vax_event_id")
+    private String vaxEventId;
+   */
+/* @OneToOne(cascade = CascadeType.ALL fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "cdc_vax_event_id", referencedColumnName = "vax_event_id")
-  /*  @JsonManagedReference
-    @JsonBackReference*/
+    @JsonManagedReference
+    @JsonBackReference*//*
+
    // @JsonIgnore
    private CdcRequestToApi cdcRequestToApi;
-/*
-    @Override
+*/
+
+    /*@Override
     public CdcResponseToDb getId() {
         return CdcResponseToDb.builder().cdcId(cdcId)
                 .cdcRequestToApi(cdcRequestToApi)

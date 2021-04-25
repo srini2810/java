@@ -2,8 +2,8 @@ package com.cvs.cdc.reader;
 
 import com.cvs.cdc.model.CdcRequestToApi;
 import com.cvs.cdc.model.CdcResponseFromApi;
-import com.cvs.cdc.model.CdcResponseToDb;
-import com.cvs.cdc.repo.CdcRespRepo;
+//import com.cvs.cdc.model.CdcResponseToDb;
+//import com.cvs.cdc.repo.CdcRespRepo;
 import com.cvs.cdc.repo.ImmunizationInfoRepo;
 import org.springframework.batch.item.*;
 import org.springframework.beans.factory.annotation.Autowired;
