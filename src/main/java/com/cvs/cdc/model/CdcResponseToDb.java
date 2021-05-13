@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
+
 @EqualsAndHashCode
 @Builder
 @Entity
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Setter
 @Getter
-@Table(name="IDW_APPS_STG_VW.CDC_API_UPLOAD_STATUS")
+@Table(name = "IDW_APPS_STG_VW.CDC_API_UPLOAD_STATUS")
 @IdClass(CompositeKey.class)
 
 /*@JsonIdentityInfo(
@@ -21,44 +22,50 @@ import javax.persistence.*;
 //@EqualsAndHashCode(exclude = {"attributeOfTypeList", "attributeOfTypeSet"})
 public class CdcResponseToDb /*implements Persistable<CdcResponseToDb>*/ {
 
-   /* @EmbeddedId
-    private CompositeKey cdcResponseKey;*/
+    /* @EmbeddedId
+     private CompositeKey cdcResponseKey;*/
     @Id
-    @Column(name="vax_event_id")
+    @Column(name = "vax_event_id")
     private String vaxEventId;
 
-    @Column(name="RXC_IMM_ID")
+    @Column(name = "RXC_IMM_ID")
     @Id
     private String rxcImmId;
 
-    @Column(name="EXTR_DT")
+    @Column(name = "EXTR_DT")
     @Id
     private String extrDt;
 
-    @Column(name="JOB_NM")
+    @Column(name = "JOB_NM")
     @Id
     private String jobNm;
 
-    @Column(name="ACTVY_TYP_CD")
+    @Column(name = "ACTVY_TYP_CD")
     private String activityTypCd;
 
-    @Column(name="RESULT_CD")
+    @Column(name = "RESULT_CD")
     private String resultCd;
 
-    @Column(name="STATUS_CD")
+    @Column(name = "STATUS_CD")
     private String statusCd;
 
-    @Column(name="INSRT_TS")
+    @Column(name = "INSRT_TS")
     private String insrtTs;
 
-    @Column(name="UPDT_TS")
+    @Column(name = "UPDT_TS")
     private String updtTs;
 
-    @Column(name="VAL_STATUS_MSG")
+    @Column(name = "VAL_STATUS_MSG")
     private String valStatusMsg;
 
-    @Column(name="UPLOAD_STATUS_MSG")
+    @Column(name = "UPLOAD_STATUS_MSG")
     private String uploadStatusMsg;
+
+    @Column(name="UPLD_TS")
+    private String upldTs;
+
+    @Column(name="RSPNS_TS")
+    private String rspnsTs;
 
 
 /*

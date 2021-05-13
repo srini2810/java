@@ -48,6 +48,7 @@ public class CdcResponseDBWriter implements ItemWriter<CdcResponseToDb> {
         cdcResponseToDb.setExtrDt("2000-09-20")*/
         /*CdcResponseToDb cdcResponseToDb = CdcResponseToDb.builder().valStatusMsg("test").updtTs("2023-01-09").statusCd("stat").rxcImmId("3").resultCd("tets").jobNm("3")
                                                .insrtTs("2020-01-04").extrDt("2020-03-04").activityTypCd("test").vaxEventId("test13").uploadStatusMsg("test").build();*/
-        cdcRespRepo.save(listCdcResponseToDb.stream().findFirst().get());
+        //cdcRespRepo.save(listCdcResponseToDb.stream().findFirst().get());
+        cdcRespRepo.saveAll(listCdcResponseToDb);
     }
 }

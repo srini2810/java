@@ -26,5 +26,5 @@ public class CompositeKey implements Serializable {
    // @Column(name="RXC_IMM_ID")
     private String rxcImmId;
    // @Column(name="vax_event_id")
-    private String vaxEventId;
+    //private String vaxEventId;
 }

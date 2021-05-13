@@ -25,13 +25,21 @@ public class CdcRequestToApi {
 
     /*@EmbeddedId
     private CompositeKey cdcResponseKey;*/
-    @Id
+   // @Id
     @Column(name="vax_event_id")
     private String vaxEventId;
 
     @Column(name="RXC_IMM_ID")
     @Id
     private String rxcImmId;
+
+    public CdcRequestToApi(String vaxEventId, String rxcImmId, String extrDt, String jobNm, String extType) {
+        this.vaxEventId = vaxEventId;
+        this.rxcImmId = rxcImmId;
+        this.extrDt = extrDt;
+        this.jobNm = jobNm;
+        this.extType = extType;
+    }
 
     @Column(name="EXTR_DT")
     @Id
@@ -200,6 +208,12 @@ public class CdcRequestToApi {
 
     @Column(name="UPDT_TS")
     private String updtTs;
+
+    @Column(name="UPLD_TS")
+    private String upldTs;
+
+    @Column(name="RSPNS_TS")
+    private String rspnsTs;
 
     @Column(name="VAL_STATUS_MSG")
     private String valStatusMsg;

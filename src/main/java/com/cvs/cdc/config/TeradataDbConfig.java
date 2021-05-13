@@ -41,7 +41,6 @@ public class TeradataDbConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean(EntityManagerFactoryBuilder builder, @Qualifier("TeraDataDataSource") DataSource dataSource1){
         Map<String,String> properties = new HashMap<>();
         properties.put("hibnerate.hbm2ddl.auto","validate");
-      //  properties.put("hibernate.dialect","org.hibernate.dialect.H2Dialect");
         properties.put("hibernate.dialect","org.hibernate.dialect.TeradataDialect");
         return builder.dataSource(dataSource1).properties(properties).packages("com.cvs.cdc.model").persistenceUnit("cdc").build();
     }

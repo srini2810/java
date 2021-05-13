@@ -40,7 +40,7 @@ public class JobController {
     @RequestMapping(value = "/cvstoapi")
     public String runJobDbToApiDemo() {
         jobRunner.runBatchJobDbtoApi();
-        return String.format("Job db to api submitted successfully.");
+        return String.format("Job cvs db to cdc api submitted successfully.");
     }
 
     //this end point gets called internally by the batch program.
@@ -48,7 +48,8 @@ public class JobController {
     public CdcResponseFromApi getCdcInfo(@RequestBody CdcRequestToApi cdcRequestToApi) {
         return CdcResponseFromApi.builder()/*.id(*//*cdcRequestToApi.getVaxEventId()*//*)*/
                                  .storageResult(StorageResult.builder().nON_REDACTED_DB(NONREDACTEDDB.builder()
-                                 .status("SUCCESS").build()).rEDACTED_DB(REDACTEDDB.builder().status("SUCCESS").build()).build()).validationErrors(new ArrayList<>()).processingErrors(new ArrayList<>()).build();
+                                 .status("SUCCESS").build()).rEDACTED_DB(REDACTEDDB.builder().status("SUCCESS").build()).build())
+                                 .validationErrors(new ArrayList<>()).processingErrors(new ArrayList<>()).build();
     }
 
    /* @RequestMapping(value = "/csvtodbmultithread")

@@ -39,10 +39,15 @@ public class CdcResponseProcessorApi implements ItemProcessor<CdcRequestToApi, C
         //LocalDateTime localDateTime = LocalDateTime.parse(LocalDateTime.now().format(dateTimeFormatter));
         CdcResponseToDb cdcResponseToDb = CdcResponseToDb.builder()/*.cdcResponseKey(CompositeKey.builder()
                                                           .extrDt(LocalDate.now().toString()).jobNm("testJobnm").rxcImmId("12")
-                                                          .vaxEventId("testvaxeventId").build())*/.vaxEventId("testvaxeventId").jobNm("testJobNm")
-                                                         .extrDt(LocalDate.now().toString())
-                                                         .rxcImmId("12").activityTypCd("activitytypecd")
+                                                          .vaxEventId("testvaxeventId").build())*/
+                                                         .vaxEventId(cdcRequestToApi.getVaxEventId())
+                                                         .jobNm(cdcRequestToApi.getJobNm())
+                                                         .extrDt(cdcRequestToApi.getExtrDt()/*LocalDate.now().toString()*/)
+                                                         .rxcImmId(cdcRequestToApi.getRxcImmId())
+                                                         .activityTypCd("INIT")
                                                          .insrtTs(LocalDateTime.now().format(dateTimeFormatter))
+                                                         .upldTs(LocalDateTime.now().format(dateTimeFormatter))
+                                                         .rspnsTs(LocalDateTime.now().format(dateTimeFormatter))
                                                          .resultCd("resultCd")
                                                          .statusCd("statusCd").updtTs(LocalDateTime.now().format(dateTimeFormatter))
                                                          .uploadStatusMsg("uploadMsg")
