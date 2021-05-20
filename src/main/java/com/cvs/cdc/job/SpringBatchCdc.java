@@ -237,12 +237,12 @@ public class SpringBatchCdc {
         
     }*/
 
-    @Bean
-    public TaskExecutor taskExecutor() {
+    /*@Bean
+    public TaskExecutor taskExecutor1() {
         SimpleAsyncTaskExecutor simpleAsyncTaskExecutor = new SimpleAsyncTaskExecutor();
         simpleAsyncTaskExecutor.setConcurrencyLimit(5);
         return simpleAsyncTaskExecutor;
-    }
+    }*/
    /* @Bean
     public Step step1Demo3() throws Exception {
         return this.stepBuilderFactory.get("step3")
@@ -270,7 +270,7 @@ public class SpringBatchCdc {
         JpaQueryProviderImpl<CdcRequestToApi> jpaQueryProviderImpl = new JpaQueryProviderImpl<>();
         jpaQueryProviderImpl.setQuery("CdcRequestToApi.findAll");
         jpaPagingItemReader.setQueryProvider(jpaQueryProviderImpl);
-        jpaPagingItemReader.setPageSize(100);
+        jpaPagingItemReader.setPageSize(2);
         // must be set to false if multi threaded
         jpaPagingItemReader.setSaveState(false);
         //jpaPagingItemReader.setMaxItemCount(2);
@@ -366,7 +366,15 @@ public class SpringBatchCdc {
                 .reader(immunizationJpaDbItemReader()) // reader()
                 .processor(cdcresponseeprocessor)
                 .writer(cdcResponseDbWriter)  //employeeFileWriter() //cdcResponseDbWriter()
+                .taskExecutor(taskExecutor())
                 .build();
+    }
+
+    @Bean
+    public TaskExecutor taskExecutor(){
+        SimpleAsyncTaskExecutor simpleAsyncTaskExecutor = new SimpleAsyncTaskExecutor();
+        simpleAsyncTaskExecutor.setConcurrencyLimit(2);
+        return  simpleAsyncTaskExecutor;
     }
 
     private Map<String, Sort.Direction> sorts;

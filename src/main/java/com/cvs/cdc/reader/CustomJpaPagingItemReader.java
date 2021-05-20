@@ -127,4 +127,7 @@ public class CustomJpaPagingItemReader<T> extends AbstractPagingItemReader<T> {
         super.doClose();
     }
 
+    public int getPage() {
+        return 0;
+    }
 }
