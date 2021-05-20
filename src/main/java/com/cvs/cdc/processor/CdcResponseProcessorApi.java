@@ -26,13 +26,6 @@ public class CdcResponseProcessorApi implements ItemProcessor<CdcRequestToApi, C
 
     @Override
     public CdcResponseToDb process(CdcRequestToApi cdcRequestToApi) throws Exception {
-        EmployeeDTO employeeDTO = new EmployeeDTO();
-        employeeDTO.setEmployeeId("1");
-        employeeDTO.setFirstName("firstName");
-        employeeDTO.setLastName("lastName");
-        employeeDTO.setEmail("email");
-        employeeDTO.setAge(40);
-
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm.ss.SSS");
 
         LocalDateTime.now().format(dateTimeFormatter);
@@ -44,7 +37,7 @@ public class CdcResponseProcessorApi implements ItemProcessor<CdcRequestToApi, C
                                                          .jobNm(cdcRequestToApi.getJobNm())
                                                          .extrDt(cdcRequestToApi.getExtrDt()/*LocalDate.now().toString()*/)
                                                          .rxcImmId(cdcRequestToApi.getRxcImmId())
-                                                         .activityTypCd("INIT")
+                                                         .activityTypCd("1F")
                                                          .insrtTs(LocalDateTime.now().format(dateTimeFormatter))
                                                          .upldTs(LocalDateTime.now().format(dateTimeFormatter))
                                                          .rspnsTs(LocalDateTime.now().format(dateTimeFormatter))

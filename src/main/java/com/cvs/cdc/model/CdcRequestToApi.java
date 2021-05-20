@@ -21,8 +21,28 @@ import javax.persistence.*;
 /*@JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "vaxEventId")*/
+@NamedQueries({
+        @NamedQuery(name = "CdcRequestToApi.findAll", query = "select u from CdcRequestToApi u")
+})
+/*@NamedNativeQueries({
+        @NamedNativeQuery(name = "selectAuthorNames", query = "select * from IDW_APPS_STG_VW.IMM_COVID_IDNTFD_EXTRACT"),
+        *//*@NamedNativeQuery(name = "selectAuthorEntities", query = "SELECT a.id, a.version, a.firstname, a.lastname FROM Author a", resultClass = Author.class),
+        @NamedNativeQuery(name = "selectAuthorValue", query = "SELECT a.id, a.firstname, a.lastname, count(b.id) as numBooks FROM Author a JOIN BookAuthor ba on a.id = ba.authorid JOIN Book b ON b.id = ba.bookid GROUP BY a.id", resultSetMapping = "AuthorValueMapping")*//*
+})*/
+
+/*@NamedNativeQuery(
+        name = "CdcRequestToApi.findAll",
+        query = "select * from IDW_APPS_STG_VW.IMM_COVID_IDNTFD_EXTRACT  where actvy_typ_cd='INIT'")*/
 public class CdcRequestToApi {
 
+
+    public CdcRequestToApi(String vaxEventId, String rxcImmId, String extrDt, String jobNm, String extType) {
+        this.vaxEventId = vaxEventId;
+        this.rxcImmId = rxcImmId;
+        this.extrDt = extrDt;
+        this.jobNm = jobNm;
+        this.extType = extType;
+    }
     /*@EmbeddedId
     private CompositeKey cdcResponseKey;*/
    // @Id
@@ -33,13 +53,7 @@ public class CdcRequestToApi {
     @Id
     private String rxcImmId;
 
-    public CdcRequestToApi(String vaxEventId, String rxcImmId, String extrDt, String jobNm, String extType) {
-        this.vaxEventId = vaxEventId;
-        this.rxcImmId = rxcImmId;
-        this.extrDt = extrDt;
-        this.jobNm = jobNm;
-        this.extType = extType;
-    }
+
 
     @Column(name="EXTR_DT")
     @Id
@@ -222,4 +236,6 @@ public class CdcRequestToApi {
     private String uploadStatusMsg;
 
 
+    public CdcRequestToApi(String vaxEventId, String rxcImmId, String extrDt, String jobNm, String extType, String vaxEventId1) {
+    }
 }

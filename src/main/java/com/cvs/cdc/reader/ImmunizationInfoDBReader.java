@@ -37,11 +37,11 @@ public class ImmunizationInfoDBReader implements ItemReader<CdcRequestToApi> {
     /*@Autowired
     private DataSource dataSource;*/
 
-    @PostConstruct
+    /*@PostConstruct
     public void init() {
         listCedRequestToApi = immunizationInfoRepo.findAll();
         index = 0;
-    }
+    }*/
 
    // @Override
     public CdcRequestToApi read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {

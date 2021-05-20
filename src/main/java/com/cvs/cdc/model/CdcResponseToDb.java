@@ -6,13 +6,12 @@ import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
 
-@EqualsAndHashCode
+
 @Builder
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
-@Getter
+@Data
 @Table(name = "IDW_APPS_STG_VW.CDC_API_UPLOAD_STATUS")
 @IdClass(CompositeKey.class)
 
@@ -66,6 +65,25 @@ public class CdcResponseToDb /*implements Persistable<CdcResponseToDb>*/ {
 
     @Column(name="RSPNS_TS")
     private String rspnsTs;
+
+    @Override
+    public String toString() {
+        return "CdcResponseToDb{" +
+                "vaxEventId='" + vaxEventId + '\'' +
+                ", rxcImmId='" + rxcImmId + '\'' +
+                ", extrDt='" + extrDt + '\'' +
+                ", jobNm='" + jobNm + '\'' +
+                ", activityTypCd='" + activityTypCd + '\'' +
+                ", resultCd='" + resultCd + '\'' +
+                ", statusCd='" + statusCd + '\'' +
+                ", insrtTs='" + insrtTs + '\'' +
+                ", updtTs='" + updtTs + '\'' +
+                ", valStatusMsg='" + valStatusMsg + '\'' +
+                ", uploadStatusMsg='" + uploadStatusMsg + '\'' +
+                ", upldTs='" + upldTs + '\'' +
+                ", rspnsTs='" + rspnsTs + '\'' +
+                '}';
+    }
 
 
 /*

@@ -28,6 +28,7 @@ public class CdcRequestRowMapper implements RowMapper<CdcRequestToApi> {
 				resultSet.getString("rxcImmId"),
 				resultSet.getString("extrDt"),
 				resultSet.getString("jobNm"),
-				resultSet.getString("extType"));
+				resultSet.getString("extType"),
+				resultSet.getString("vaxEventId"));
 	}
 }
